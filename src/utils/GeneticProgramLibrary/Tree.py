@@ -1,5 +1,6 @@
 from igraph import Graph
 from plot import plot_tree
+from copy import deepcopy, copy
 
 class Tree():
   '''
