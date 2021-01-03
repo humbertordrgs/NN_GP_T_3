@@ -61,6 +61,7 @@ def plot_tree(G, nr_vertices, v_label):
     text=labels,
     hoverinfo='text',
     opacity=0.8
+
     )
   )
 
