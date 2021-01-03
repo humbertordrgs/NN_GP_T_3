@@ -1,4 +1,5 @@
 import plotly.graph_objects as go
+from igraph import EdgeSeq
 
 def make_annotations(pos, texts, M, font_size=10, font_color='rgb(250,250,250)'):
   L=len(pos)
