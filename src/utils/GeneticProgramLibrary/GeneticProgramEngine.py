@@ -129,7 +129,7 @@ class GeneticProgram():
 
     # Replacing the subtree
     if idx_sub_tree_to_be_replaced > 0:
-      c_p1.update_sub_tree(0,idx_sub_tree_to_be_replaced,replacement_tree)
+      c_p1.update_sub_tree(idx_sub_tree_to_be_replaced,replacement_tree)
     else:
       c_p1 = replacement_tree.copy()
 
@@ -169,13 +169,13 @@ class GeneticProgram():
 
     # Replacing the subtree in c_p1
     if idx_sub_tree_to_be_replaced > 0:
-      c_p1.update_sub_tree(0,idx_sub_tree_to_be_replaced,replacement_tree[1])
+      c_p1.update_sub_tree(idx_sub_tree_to_be_replaced,replacement_tree[1])
     else:
       c_p1 = replacement_tree[1].copy()
   
     # Replacing the subtree in c_p2
     if replacement_tree[0] > 0:
-      c_p2.update_sub_tree(0,replacement_tree[0],sub_tree_to_be_replaced)
+      c_p2.update_sub_tree(replacement_tree[0],sub_tree_to_be_replaced)
     else:
       c_p2 = sub_tree_to_be_replaced.copy()
 
@@ -202,7 +202,7 @@ class GeneticProgram():
 
     # Replacing the old subtree with the mutated onew
     if idx_sub_tree_to_be_replaced > 0:
-      individual.update_sub_tree(0,idx_sub_tree_to_be_replaced,replacement_tree)
+      individual.update_sub_tree(idx_sub_tree_to_be_replaced,replacement_tree)
     else:
       individual = replacement_tree.copy()
     return individual

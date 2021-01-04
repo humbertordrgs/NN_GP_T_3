@@ -15,9 +15,9 @@ There are two main components of this library the `GeneticProgram` and the `Tree
     ```python
         from Tree import Tree
 
-        left = Tree("1",is_leaf=True)
-        right = Tree("2",is_leaf=True)
-        my_first_tree = Tree("0",is_leaf=False,size=3,left=left,right=right)
+        left = Tree(1,is_leaf=True)
+        right = Tree(2,is_leaf=True)
+        my_first_tree = Tree("+",is_leaf=False,size=3,left=left,right=right)
         my_first_tree.print()
     ```
 
@@ -37,15 +37,59 @@ There are two main components of this library the `GeneticProgram` and the `Tree
 
     ```python
         my_copied_tree = my_first_tree.copy()
-        my_first_tree.value = "a"
+        my_first_tree.value = "-"
         my_copied_tree.print()
     ```
     
     The result in this case should be exactly the same as before due to the copy method does not keep any reference to the original instance
 
-    Evaluating a Tree:
+    Evaluating a Tree: There are two methods provided by this library to do this `eval_in_order` and `eval_post_order` both of them returns a `string` with an executable `python` statement.     
+
+    *   eval_in_order: This methods apply extract an in order representation of the `Tree`(<left_subtree> <current_value> <right_subtree>) it is ideal when the information inside the `Tree` contains only constants values. It will use the `__str__` of each node in the instance.
+
+    *    eval_post_order: This methods works under the assumptiom that every not leaf value in the `Tree` is a python function with exactly two arguments. The result will have the following pattern: `<not_leaf_value>(<left_subtree,right_subtree>)`
+
+    Example: 
+    
+    ```python
+        def custom_div(x, y):
+            if y == 0:
+                return 1
+            return x / y
+
+        custom_div.__str__ = lambda : "/"
+
+        left = Tree(1,is_leaf=True)
+        right = Tree(0,is_leaf=True)
+        evaluable_tree = Tree(custom_div,is_leaf=False,size=3,left=left,right=right)
+    ```
 
     ```python
-        
+        evaluable_tree.eval_in_order()
+        #Output  '1/0'
 
+        evaluable_tree.eval_post_order()
+        #Output 'custom_div(1, 0)'
     ```
+
+    It is important to notice the difference in the results.
+
+    The idea is that the results of this functions should be setted in the appropiate context in case using variables and then execute it using python `eval` built in method.
+
+    ## Indexing subtrees: 
+    Every `Tree` instance is indexed in specific way which follows the next pattern:
+
+    current_node = i
+    left_subtree = i + 1
+    right_subtree = i + 1 + left_subtree.size
+
+    ```python
+        for i in range(0,tree.size)
+    ```
+
+    These indexes are used to retrieve and update specific subtrees
+
+    ## Updating Subtree:
+    
+
+

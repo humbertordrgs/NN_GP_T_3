@@ -71,7 +71,7 @@ class Tree():
     This function is in charge of updating a subtree in an specific index
     also using a pre-order approach to iterate through the trees
   '''
-  def update_sub_tree(self, current_idx, idx_to_be_replaced, replacement_tree):
+  def update_sub_tree(self,idx_to_be_replaced, replacement_tree, current_idx=0):
     if not self.is_leaf:
       right_idx = current_idx + self.left.size + 1
       if current_idx + 1 == idx_to_be_replaced:
@@ -79,8 +79,8 @@ class Tree():
       elif right_idx == idx_to_be_replaced:
         self.right = replacement_tree
       else:
-        self.left.update_sub_tree(current_idx + 1,idx_to_be_replaced,replacement_tree)
-        self.right.update_sub_tree(right_idx,idx_to_be_replaced,replacement_tree)
+        self.left.update_sub_tree(idx_to_be_replaced,replacement_tree,current_idx + 1)
+        self.right.update_sub_tree(idx_to_be_replaced,replacement_tree,right_idx)
       self.size = self.left.size + self.right.size + 1
   
   '''
@@ -98,7 +98,7 @@ class Tree():
     g = Graph()
     g.add_vertices(self.size)
     g.add_edges(edges)
-    plot_tree(g, self.size, labels)
+    plot_tree(g, self.size, labels)/
   
   '''
     We define the copy as a deepcopy of an instance to ensure
@@ -125,6 +125,6 @@ class Tree():
     if not self.is_leaf:
       res_l = self.left.eval_post_order()
       res_r = self.right.eval_post_order()
-      res = f"{getattr(self.value,"name",self.value.__str__())}({res_l}, {res_r})"      
+      res = f"{getattr(self.value,'__name__',self.value.__str__())}({res_l}, {res_r})"      
       return res
     return str(self.value)
