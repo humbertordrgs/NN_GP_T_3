@@ -113,7 +113,7 @@ class Tree():
   def eval_in_order(self):
     if not self.is_leaf:
       res = self.left.eval_in_order()
-      res += self.value.__str__
+      res += self.value.__str__()
       res += self.right.eval_in_order()
       return res
     return str(self.value)
@@ -125,6 +125,6 @@ class Tree():
     if not self.is_leaf:
       res_l = self.left.eval_post_order()
       res_r = self.right.eval_post_order()
-      res = f"{self.value.__name__}({res_l}, {res_r})"      
+      res = f"{self.value.__name__ if self.value.__name__ else self.value.__str__()}({res_l}, {res_r})"      
       return res
     return str(self.value)
