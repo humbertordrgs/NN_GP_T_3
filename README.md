@@ -41,7 +41,7 @@ There are two main components of this library, the `GeneticProgram` and `Tree` c
         my_copied_tree.print()
     ```
     
-    The result in this case should be exactly the same as before due to the copy method not keeping any reference to the original instance
+    The result in this case should be exactly the same as before due to the copy method not keeping any reference to the original instance.
 
     Evaluating a Tree: There are two methods provided by this library to do this `eval_in_order` and `eval_post_order` both of them returns a `string` with an executable `python` statement.     
 
