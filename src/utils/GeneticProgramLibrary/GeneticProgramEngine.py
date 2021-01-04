@@ -1,6 +1,11 @@
 import numpy as np
 from random import randint, random
 
+
+'''
+This is the main file of the library it contains the GeneticProgram class
+Which is a basic implementation of the Genetic Programming operations
+'''
 class GeneticProgram():
   '''
     Parameters:
@@ -31,10 +36,7 @@ class GeneticProgram():
     variables_prob = 0.0
   ):
     self.population_size = population_size
-    self.terminals = terminals
-    self.non_terminals = non_terminals
-    self.generate_individual = generate_individual
-    self.fitness = fitness
+    self.terminals = terminalsof the new population
     self.selection = self.tournament_selection if selection == "tournament" else self.roulette_selection
     self.reproduction = self.crossover if reproduction == "crossover" else self.variant_crossover
     self.end_criteria = end_criteria
@@ -46,12 +48,18 @@ class GeneticProgram():
     # Generate initial population
     self.population = self.generate_initial_population()
 
+  '''
+    This Method will generate the initial population calling the mandatory `generate` method provided
+  '''
   def generate_initial_population(self):
     res = []
     for i in range(self.population_size):
       res.append(self.generate_individual(0,self.max_tree_deepness,self.terminals,self.non_terminals,self.variables,self.variables_prob))
     return res
   
+  '''
+    Auxiliar method to extract `parents` avoiding duplicates
+  '''
   def gen_rand_with_memory(self, prev_idxs):
     while (True):
       new_rand = randint(0, self.population_size - 1)
@@ -63,12 +71,18 @@ class GeneticProgram():
       if (flag):
           return new_rand
 
+  '''
+    Implementation of the roulette selection method
+  '''
   def roulette_selection(self):
     parent_idxs = []
     for i in range(0, 2):
         parent_idxs.append(self.gen_rand_with_memory(parent_idxs))
     return [self.population[idx] for idx in parent_idxs] 
 
+  '''
+    Implementation of the torunament selection method
+  '''
   def tournament_selection(self):
     parent_idxs = []
     for i in range(0,2):
@@ -80,11 +94,15 @@ class GeneticProgram():
       parent_idxs.append(prospect_idxs[np.argmin(fit_vals)])
     return [self.population[idx] for idx in parent_idxs]
 
+  '''
+    Implementation of the crossover reproduction method
+    The result will be always a tree with deepness less or equal than `max_tree_deepness`
+  '''
   def crossover(self, parents):
 
     # Copy of first parent
     c_p1 = parents[0].copy()
-    # Copy of seconmd parent
+    # Copy of second parent
     c_p2 = parents[1].copy()
 
     # Caculate indexes of sub trees to be merged
@@ -94,11 +112,13 @@ class GeneticProgram():
     # Get all the possible candidates inside c_p2 taking in account the max deepness
     valid_sub_tree_options = c_p2.get_sub_trees_by_level(0,0,(self.max_tree_deepness-sub_tree_level), self.max_tree_deepness)
 
+    # Extracting the candidate tree
     if len(valid_sub_tree_options) > 1:
       replacement_tree = valid_sub_tree_options[randint(0, len(valid_sub_tree_options) - 1)][1]
     else:
       replacement_tree = valid_sub_tree_options[0][1]
 
+    # Replacing the subtree
     if idx_sub_tree_to_be_replaced > 0:
       c_p1.update_sub_tree(0,idx_sub_tree_to_be_replaced,replacement_tree)
     else:
@@ -107,6 +127,13 @@ class GeneticProgram():
     # Returns a list with a single new element
     return [ c_p1 ]
   
+  '''
+    Implementation of the crossover reproduction method
+    `c_p1` will be always a tree with deepness less or equal than `max_tree_deepness`.
+    in the other hand `c_p2` can be bigger this because c_p1 is the one used as an anchor in this implementation.
+
+    TODO: Evalutate a different approach or use a doble anchor which is not the original behavior of the variant  
+  '''
   def variant_crossover(self, parents):
     # Copy of first parent
     c_p1 = parents[0].copy()
@@ -125,16 +152,19 @@ class GeneticProgram():
       valid_sub_tree_options = c_p2.get_sub_trees_by_level(0,0,max(0,self.max_tree_deepness-sub_tree_level), self.max_tree_deepness)
       if not valid_sub_tree_options:
         continue
+      # Extracting the candidate tree
       elif len(valid_sub_tree_options) > 1:
         replacement_tree = valid_sub_tree_options[randint(0, len(valid_sub_tree_options) - 1)]
       else:
         replacement_tree = valid_sub_tree_options[0]
 
+    # Replacing the subtree in c_p1
     if idx_sub_tree_to_be_replaced > 0:
       c_p1.update_sub_tree(0,idx_sub_tree_to_be_replaced,replacement_tree[1])
     else:
       c_p1 = replacement_tree[1].copy()
   
+    # Replacing the subtree in c_p2
     if replacement_tree[0] > 0:
       c_p2.update_sub_tree(0,replacement_tree[0],sub_tree_to_be_replaced)
     else:
@@ -143,18 +173,38 @@ class GeneticProgram():
     # Returns a list with two new elements
     return [ c_p1, c_p2 ]
 
+  '''
+    Implementation of the mutation the General behavior is this:
+      - Estimate a subtree to be mutated and extract his level.
+      - Generate a new individual(subtree) with a deepness,
+        taking into account the level of the subtree which is beingf mutated and the `max_tree_deepness`
+      -
+  '''
   def mutate(self, individual):
-    # Caculate indexes of sub trees to be merged
+    # Caculate indexes of sub trees to be mutated
     idx_sub_tree_to_be_replaced = randint(0,individual.size - 1)
     sub_tree_level, sub_tree_to_be_replaced = individual.get_sub_tree(0,0,idx_sub_tree_to_be_replaced)
+
+    # Generate a tree that will be the mutated result
     replacement_tree = self.generate_individual(0,max(self.max_tree_deepness-sub_tree_level,0),self.terminals,self.non_terminals,self.variables,self.variables_prob)
 
+    # Replacing the old subtree with the mutated onew
     if idx_sub_tree_to_be_replaced > 0:
       individual.update_sub_tree(0,idx_sub_tree_to_be_replaced,replacement_tree)
     else:
       individual = replacement_tree.copy()
     return individual
 
+  '''
+    This method is in charge of generating a nerw population each generation
+    The general flow is:
+      - Create a new empty population
+      - Select individuals to be reproduced
+      - Apply reproduction method with the selected individuals
+      - The candidate(s) are evaluated for possible mutations
+      - The candidates are added to the new population
+      - If the new population has the desired size then replace the old population
+  '''
   def select_and_reproduction(self):
     new_population = []
     print("\t- Selection,Reproduction & Mutation")
@@ -168,6 +218,11 @@ class GeneticProgram():
 
     self.population = new_population
 
+  '''
+    This method is in charge of estimating the fitness value for a population
+    and store the data for possible charts. For each Generation this function calculate
+    the individual with the lowest, avg and highest value 
+  '''
   def eval_population(self):
     fitness = []
     for individual in self.population:
@@ -189,6 +244,16 @@ class GeneticProgram():
 
     return [ (idx_min,fitness[idx_min]) , (-1,c_mean), (idx_max,fitness[idx_max]) ]
 
+  '''
+    The executable run(<generations>) method follows the next life cycle:
+    - Evaluate Fitness the current population and store data for charts
+    - If there is an individual that pass the end criteria return it
+    - Generate a new population based on the selection and reproduction method
+    - Each candidate for the new population is considered for possible mutations
+    - Add the individual(s) to the new population pool
+    - If the number of generation is reached will return
+      the individual found with best(lowest) fitness value (across the generations)
+  '''
   def run(self, generations):
     # Initialize metrics
     self.historic_min_metric = []

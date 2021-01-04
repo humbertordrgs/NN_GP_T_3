@@ -1,6 +1,9 @@
 import plotly.graph_objects as go
 from igraph import EdgeSeq
 
+'''
+  This method is used to draw the annotations and tooltip of the tree values
+'''
 def make_annotations(pos, texts, M, font_size=10, font_color='rgb(250,250,250)'):
   L=len(pos)
   if len(texts)!=L:
@@ -17,6 +20,14 @@ def make_annotations(pos, texts, M, font_size=10, font_color='rgb(250,250,250)')
     )
   return annotations
 
+'''
+  This Function is in charge of receiving the `Graph` instance of our Trees
+  and  Generate an spatial valid representation using the `layout` method 
+  specifying the root of our tree
+
+  `rt` comes from: `Reingold-Tilford Layout`
+  https://igraph.org/python/doc/tutorial/tutorial.html#layouts-and-plotting
+'''
 def plot_tree(G, nr_vertices, v_label):
   lay = G.layout('rt', root=0)
 
@@ -86,28 +97,3 @@ def plot_tree(G, nr_vertices, v_label):
     paper_bgcolor='rgb(210,210,210)'
   )
   fig.show()
-
-def create_figure():
-  return go.Figure()
-  
-def plot_figure(fig, data, color, title):  
-    
-  y_axis = [float(x) for x in data]
-  fig.add_scatter(
-    y=y_axis,
-    x=[x+1 for x in range(len(y_axis))],
-    mode="lines+markers", 
-    textposition="bottom center",
-    name=title,
-    line={"color": color, "width": 1}
-  )
-  fig.update_layout(
-    title="Fitness chart",
-    xaxis_title="Generations",
-    yaxis={"title": "Accuracy in Test", "tickformat": ".5f"},
-    font=dict(
-      family="Courier New, monospace",
-      size=14,
-      color="#7f7f7f"
-    )
-  )
