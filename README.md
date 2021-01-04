@@ -23,6 +23,8 @@ There are two main components of this library the `GeneticProgram` and the `Tree
     In this example we created our first `Tree` instance and there few important things to mention:
 
     *   Every instance has a `is_leaf` attribute which is important for the right behavior of the methods in the class.
+
+    *   Every `Tree` has a size attribute which needs to be consistent and should be **left.size + right.size + 1**. This is achieved modifying the instance using the functions provided in this class and not in a direct way.
+
     
-    *   Every `Tree` has a size attribute which needs to be consistent and should be **left.size + right.size + 1**. This is achieved modifying the instace using the functions provided in this class and not in a direct way.
     
