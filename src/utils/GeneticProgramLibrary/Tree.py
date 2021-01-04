@@ -27,7 +27,7 @@ class Tree():
     the adjacency list form for a tree, used mainly for printing the tree 
   '''
   def get_structure(self, id):
-    parsed_value = str(self.value)
+    parsed_value = self.value.__str__()
     res = {
       "value": parsed_value,
       "edges": []
