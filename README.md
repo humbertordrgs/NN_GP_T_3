@@ -54,7 +54,7 @@ There are two main components of this library, the `GeneticProgram` and `Tree` c
     ```python
         def custom_div(x, y):
             if y == 0:
-                return 1
+                return 1init
             return x / y
 
         custom_div.__str__ = lambda : "/"
@@ -80,8 +80,8 @@ There are two main components of this library, the `GeneticProgram` and `Tree` c
     Every `Tree` instance is indexed in specific way which follows the next pattern:
 
     current_node = i
-    left_subtree = i + 1
-    right_subtree = i + 1 + left_subtree.size
+    left_subtree = i +init 1
+    right_subtree = i + 1 + left_subtree.sizeinit
 
     ```python
         for i in range(0,tree.size)
@@ -105,4 +105,79 @@ There are two main components of this library, the `GeneticProgram` and `Tree` c
         updatable_tree.print()
     ```
     
+    Resulting in:
+    
     ![](https://raw.githubusercontent.com/humbertordrgs/NN_GP_T_3/develop/assets/updated.png)
+
+* ## GeneticProgram class
+
+    This is the second component of our library in which we configure all the enviroment needed for our experiments.
+
+    When creating an instance of this class We need to define several mandatory things as follows:
+
+    *   Population Size: Exact number of individuals inside a population
+
+    *   Terminals: Array of values that will be used as terminals (tree leafs only)
+
+    *   Non-Terminals: Array of values (mostly operations) that will  appear in the non-leaf subtrees.
+
+    *   Generate_individual: A mandatory function with the following sign:
+
+        ```python
+        def generate_tree(max_tree_deepness, terminals, non_terminals, variables, variables_prob)
+        ```
+        that should return an instance of the `Tree` class 
+    
+    *   Fitness: A mandatory function which receives an instance of the `Tree` class as the only parameter and returns an scalar with the result of evaluating the tree in the right context.
+
+    *   Selection: A string with the values `tournament` or `roulette`.
+
+    *   Reproduction: A string with the values `crossover` or `variant`.
+    *   End Criteria: A mandatory function which returns a boolean value, if True is received by the engine end criteria has been achieved.
+
+    *   Variables: An optional array of values that will be also be considered as terminals.
+
+    *    Variables prob: An optional scalar wich indicates the probability that a terminal is a variable or not.
+
+    *   Max tree deepness: An optional integer with the maximum desired deepness for the instances of the `Tree` class.
+
+    ```python
+        # This method can have more parameters than the ones specified but not less
+        def generate_tree(max_tree_deepness, terminals, non_terminals, variables, variables_prob):
+
+            # Dummy use of the terminals just for the example
+            left = Tree(terminals[0],is_leaf=True)
+            right = Tree(terminals[-1],is_leaf=True)
+            fixed_tree = Tree(non_terminals[0],is_leaf=False,size=3,left=left,right=right)
+            return fixed_tree
+
+        def custom_sum(x, y):
+            return x + y
+
+        custom_sum.__str__ = lambda : "+"
+
+        def fitness(tree):
+            return abs(20 - eval(tree.eval_post_order()))
+
+        end_criteria = lambda x: x == 0
+        terminals = [1,2,3,5,7]
+        non_terminals = [custom_sum] 
+
+        my_engine = GeneticProgram(
+            10,
+            terminals,
+            non_terminals,
+            generate_tree,
+            fitness,
+            "roulette",
+            "crossover",
+            end_criteria,
+            max_tree_deepness=2
+        )
+        best, b_fitness =  my_engine.run(1)
+        best.print()
+    ```
+
+    Resulting in:
+
+    ![](https://raw.githubusercontent.com/humbertordrgs/NN_GP_T_3/develop/assets/dummy.png)
