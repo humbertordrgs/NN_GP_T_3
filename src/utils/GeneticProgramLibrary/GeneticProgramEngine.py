@@ -274,11 +274,11 @@ class GeneticProgram():
     for g in range(0,generations):
       print(f"Generation: {g+1}")
 
-      print("Evaluation")
+      print("\t-Evaluation")
       # Evaluate fitness of current population
       current_results = self.eval_population()
       
-      print(f"Fitness results:\n\tlowest:{current_results[0][1]:.3f}\n\tAvg:{current_results[1][1]:.3f}\n\thighest:{current_results[2][1]:.3f}")
+      print(f"\t-Fitness results:\n\t\tlowest: {current_results[0][1]:.3e}\n\t\tAvg: {current_results[1][1]:.3e}\n\t\thighest: {current_results[2][1]:.3e}")
       # Verify an acceptable individual has been found
       if self.end_criteria(current_results[0][1]):
         print("Criteria met finishing")
