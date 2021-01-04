@@ -54,7 +54,7 @@ There are two main components of this library, the `GeneticProgram` and `Tree` c
     ```python
         def custom_div(x, y):
             if y == 0:
-                return 1init
+                return 1
             return x / y
 
         custom_div.__str__ = lambda : "/"
@@ -156,8 +156,9 @@ There are two main components of this library, the `GeneticProgram` and `Tree` c
 
         custom_sum.__str__ = lambda : "+"
 
+        # Dummy implementation of the fitness
         def fitness(tree):
-            return abs(20 - eval(tree.eval_post_order()))
+            return eval(tree.eval_post_order())
 
         end_criteria = lambda x: x == 0
         terminals = [1,2,3,5,7]
