@@ -3,8 +3,13 @@ from random import randint, random
 
 
 '''
-This is the main file of the library it contains the GeneticProgram class
-Which is a basic implementation of the Genetic Programming operations
+  This is the main file of the library it contains the GeneticProgram class
+  Which is a basic implementation of the Genetic Programming operations
+
+  It is important to notice the use of `variables` and `variables_prob`
+  parameters. The idea of those is to set a custom probability
+  to specific terminal subset, it can be interpreted also as a hyper parameter
+  of the model.
 '''
 class GeneticProgram():
   '''
@@ -18,7 +23,9 @@ class GeneticProgram():
     - Specify the reproduction method to be used
     - Method to recognize when end criteria is met
     - Max deepness of trees handled in the engine
-    - Change to mutate an individual
+    - Chance to mutate an individual
+    - Variable list, is used also as terminals
+    - Probability that a terminal is a `variable` or common 
   '''
   def __init__(
     self,
@@ -271,13 +278,13 @@ class GeneticProgram():
       # Evaluate fitness of current population
       current_results = self.eval_population()
       
-      print(current_results)
+      print(f"Fitness results:\n\tlowest:{current_results[0][1]:.3f}\n\tAvg:{current_results[1][1]:.3f}\n\thighest:{current_results[2][1]:.3f}")
       # Verify an acceptable individual has been found
       if self.end_criteria(current_results[0][1]):
-        print("Criteria met")
+        print("Criteria met finishing")
         return self.population[current_results[0][0]], current_results[0][1]
 
       # Apply selection and reproduction methods
       self.select_and_reproduction()
     print("Criteria not met returning the best found")
-    return self.best, np.max(self.historic_max_metric)
+    return self.best, np.min(self.historic_min_metric)
