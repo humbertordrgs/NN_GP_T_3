@@ -98,7 +98,7 @@ class Tree():
     g = Graph()
     g.add_vertices(self.size)
     g.add_edges(edges)
-    plot_tree(g, self.size, labels)/
+    plot_tree(g, self.size, labels)
   
   '''
     We define the copy as a deepcopy of an instance to ensure
