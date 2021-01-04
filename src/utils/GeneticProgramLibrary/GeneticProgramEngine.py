@@ -36,7 +36,10 @@ class GeneticProgram():
     variables_prob = 0.0
   ):
     self.population_size = population_size
-    self.terminals = terminalsof the new population
+    self.terminals = terminals
+    self.non_terminals = non_terminals
+    self.generate_individual = generate_individual
+    self.fitness = fitness
     self.selection = self.tournament_selection if selection == "tournament" else self.roulette_selection
     self.reproduction = self.crossover if reproduction == "crossover" else self.variant_crossover
     self.end_criteria = end_criteria
