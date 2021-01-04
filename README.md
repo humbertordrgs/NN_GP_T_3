@@ -45,9 +45,9 @@ There are two main components of this library, the `GeneticProgram` and `Tree` c
 
     Evaluating a Tree: There are two methods provided by this library to do this `eval_in_order` and `eval_post_order` both of them returns a `string` with an executable `python` statement.     
 
-    *   eval_in_order: This methods apply extract an in order representation of the `Tree`(<left_subtree> <current_value> <right_subtree>) it is ideal when the information inside the `Tree` contains only constants values. It will use the `__str__` of each node in the instance.
+    *   eval_in_order: This methods extracts an in order representation of the `Tree`(<left_subtree> <current_value> <right_subtree>) it is ideal when the information inside the `Tree` contains only constant values. It will use the `__str__` of each node in the instance.
 
-    *    eval_post_order: This methods works under the assumptiom that every not leaf value in the `Tree` is a python function with exactly two arguments. The result will have the following pattern: `<not_leaf_value>(<left_subtree,right_subtree>)`
+    *    eval_post_order: This methods works under the assumption that every value in the `Tree` that is **not** a leaf, is a python function with exactly two arguments. The result will have the following pattern: `<not_leaf_value>(<left_subtree,right_subtree>)`.
 
     Example: 
     
@@ -74,23 +74,23 @@ There are two main components of this library, the `GeneticProgram` and `Tree` c
 
     It is important to notice the difference in the results.
 
-    The idea is that the results of this functions should be setted in the appropiate context in case using variables and then execute it using python `eval` built in method.
+    The idea is that the results of these functions should be set in the appropiate context in case of using variables, and then executing them using the python `eval` built in method.
 
     ## Indexing subtrees: 
-    Every `Tree` instance is indexed in specific way which follows the next pattern:
+    Every `Tree` instance is indexed following the next pattern:
 
-    current_node = i
-    left_subtree = i +init 1
-    right_subtree = i + 1 + left_subtree.sizeinit
+    * current_node = i
+    * left_subtree = i + 1
+    * right_subtree = i + 1 + left_subtree.size
 
     ```python
         for i in range(0,tree.size)
     ```
 
-    These indexes are used to retrieve and update specific subtrees
+    These indexes are used to retrieve and update specific subtrees.
 
     ## Updating Subtree:
-    This functions replace the desired subtree.
+    This function replaces the desired subtree.
 
     ```python
         left = Tree(1,is_leaf=True)
@@ -111,9 +111,9 @@ There are two main components of this library, the `GeneticProgram` and `Tree` c
 
 * ## GeneticProgram class
 
-    This is the second component of our library in which we configure all the enviroment needed for our experiments.
+    This is the second component of our library in which we configure the enviroment needed for our experiments.
 
-    When creating an instance of this class We need to define several mandatory things as follows:
+    When creating an instance of this class we need to define several mandatory things as follows:
 
     *   Population Size: Exact number of individuals inside a population
 
@@ -121,23 +121,24 @@ There are two main components of this library, the `GeneticProgram` and `Tree` c
 
     *   Non-Terminals: Array of values (mostly operations) that will  appear in the non-leaf subtrees.
 
-    *   Generate_individual: A mandatory function with the following sign:
+    *   Generate_individual: A mandatory function with the following signature:
 
         ```python
         def generate_tree(max_tree_deepness, terminals, non_terminals, variables, variables_prob)
         ```
-        that should return an instance of the `Tree` class 
+        which should return an instance of the `Tree` class 
     
-    *   Fitness: A mandatory function which receives an instance of the `Tree` class as the only parameter and returns an scalar with the result of evaluating the tree in the right context.
+    *   Fitness: A mandatory function which receives an instance of the `Tree` class as the only parameter and returns a scalar with the result of evaluating the tree in the right context.
 
-    *   Selection: A string with the values `tournament` or `roulette`.
+    *   Selection: A string with the values `tournament` or `roulette`, which defines the type of selection algorithm to use.
 
-    *   Reproduction: A string with the values `crossover` or `variant`.
-    *   End Criteria: A mandatory function which returns a boolean value, if True is received by the engine end criteria has been achieved.
+    *   Reproduction: A string with the values `crossover` or `variant`, which defines the type of reproduction algorithm to use.
+
+    *   End Criteria: A mandatory function which returns a boolean value, if `True` is received by the engine end criteria has been achieved and the execution finishes.
 
     *   Variables: An optional array of values that will be also be considered as terminals.
 
-    *    Variables prob: An optional scalar wich indicates the probability that a terminal is a variable or not.
+    *    Variables prob: An optional scalar which indicates the probability of a terminal being a variable or not.
 
     *   Max tree deepness: An optional integer with the maximum desired deepness for the instances of the `Tree` class.
 
@@ -156,7 +157,7 @@ There are two main components of this library, the `GeneticProgram` and `Tree` c
 
         custom_sum.__str__ = lambda : "+"
 
-        # Dummy implementation of the fitness
+        # Dummy implementation of fitness
         def fitness(tree):
             return eval(tree.eval_post_order())
 
