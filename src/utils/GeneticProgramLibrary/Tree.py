@@ -125,6 +125,6 @@ class Tree():
     if not self.is_leaf:
       res_l = self.left.eval_post_order()
       res_r = self.right.eval_post_order()
-      res = f"{self.value.__str__()}({res_l}, {res_r})"      
+      res = f"{self.value.__name__}({res_l}, {res_r})"      
       return res
     return str(self.value)
