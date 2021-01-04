@@ -1,7 +1,7 @@
 import plotly.graph_objects as go
 
 '''
-    Small utilities to generate charts for the changes of the fitness during the training
+    Utilities to generate charts on the changes of the fitness through generations
 '''
 def create_figure():
   return go.Figure()

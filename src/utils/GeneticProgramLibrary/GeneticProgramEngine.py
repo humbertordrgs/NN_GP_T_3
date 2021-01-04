@@ -6,10 +6,9 @@ from random import randint, random
   This is the main file of the library it contains the GeneticProgram class
   Which is a basic implementation of the Genetic Programming operations
 
-  It is important to notice the use of `variables` and `variables_prob`
-  parameters. The idea of those is to set a custom probability
-  to specific terminal subset, it can be interpreted also as a hyper parameter
-  of the model.
+  In order to set a custom probability for a specific terminal subset we use the 
+  parameters `variables` and `variables_prob`, these can also be interpreted as a 
+  hyper parameter of the model.
 '''
 class GeneticProgram():
   '''
@@ -140,14 +139,14 @@ class GeneticProgram():
   '''
     Implementation of the crossover reproduction method
     `c_p1` will be always a tree with deepness less or equal than `max_tree_deepness`.
-    in the other hand `c_p2` can be bigger this because c_p1 is the one used as an anchor in this implementation.
+    `c_p2` can be bigger because c_p1 is the one used as an anchor in this implementation.
 
-    TODO: Evalutate a different approach or use a doble anchor which is not the original behavior of the variant  
+    TODO: Evalutate a different approach or use a doble anchor which is not the original behaviour of the variant  
   '''
   def variant_crossover(self, parents):
     # Copy of first parent
     c_p1 = parents[0].copy()
-    # Copy of seconmd parent
+    # Copy of second parent
     c_p2 = parents[1].copy()
 
     # Caculate indexes of sub trees to be merged
@@ -184,11 +183,14 @@ class GeneticProgram():
     return [ c_p1, c_p2 ]
 
   '''
-    Implementation of the mutation the General behavior is this:
+    Implementation of the mutation method
+    General behaviour:
       - Estimate a subtree to be mutated and extract his level.
-      - Generate a new individual(subtree) with a deepness,
-        taking into account the level of the subtree which is beingf mutated and the `max_tree_deepness`
-      -
+      - Generate a new individual(subtree) with a deepness that takes 
+      into account the level of the subtree which is being mutated and 
+      the `max_tree_deepness`
+      - Replace the old subtree with the new 'mutated' subtree into the 
+      corresponding idx of the individual and return it
   '''
   def mutate(self, individual):
     # Caculate indexes of sub trees to be mutated
@@ -206,8 +208,8 @@ class GeneticProgram():
     return individual
 
   '''
-    This method is in charge of generating a nerw population each generation
-    The general flow is:
+    This method is in charge of generating the new population each generation
+    General behaviour:
       - Create a new empty population
       - Select individuals to be reproduced
       - Apply reproduction method with the selected individuals
@@ -230,8 +232,8 @@ class GeneticProgram():
 
   '''
     This method is in charge of estimating the fitness value for a population
-    and store the data for possible charts. For each Generation this function calculate
-    the individual with the lowest, avg and highest value 
+    and storing the data for generating charts. This function calculates
+    the individual with the lowest, avg and highest value in each generation.
   '''
   def eval_population(self):
     fitness = []
@@ -256,13 +258,13 @@ class GeneticProgram():
 
   '''
     The executable run(<generations>) method follows the next life cycle:
-    - Evaluate Fitness the current population and store data for charts
-    - If there is an individual that pass the end criteria return it
-    - Generate a new population based on the selection and reproduction method
+    - Evaluate Fitness of the current population and store data for charts
+    - If there is an individual that pass the end criteria return it and stop
+    - Generate a new population based on the selection and reproduction methods
     - Each candidate for the new population is considered for possible mutations
     - Add the individual(s) to the new population pool
-    - If the number of generation is reached will return
-      the individual found with best(lowest) fitness value (across the generations)
+    - If the number of generation is reached, return the individual found with the
+    best(lowest) fitness value (across the generations)
   '''
   def run(self, generations):
     # Initialize metrics

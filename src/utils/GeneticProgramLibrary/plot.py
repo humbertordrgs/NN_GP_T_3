@@ -2,7 +2,7 @@ import plotly.graph_objects as go
 from igraph import EdgeSeq
 
 '''
-  This method is used to draw the annotations and tooltip of the tree values
+  This method is used to draw the annotations and tooltips of the tree values
 '''
 def make_annotations(pos, texts, M, font_size=10, font_color='rgb(250,250,250)'):
   L=len(pos)
@@ -21,8 +21,8 @@ def make_annotations(pos, texts, M, font_size=10, font_color='rgb(250,250,250)')
   return annotations
 
 '''
-  This Function is in charge of receiving the `Graph` instance of our Trees
-  and  Generate an spatial valid representation using the `layout` method 
+  This function is in charge of receiving the `Graph` instance of our trees
+  and generating a spatial valid representation using the `layout` method 
   specifying the root of our tree
 
   `rt` comes from: `Reingold-Tilford Layout`
