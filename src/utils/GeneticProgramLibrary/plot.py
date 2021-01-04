@@ -89,6 +89,8 @@ def plot_tree(G, nr_vertices, v_label):
     annotations=make_annotations(position, v_label, M),
     font_size=12,
     showlegend=False,
+    width=700,
+    height=450,
     xaxis=axis,
     yaxis=axis,
     margin=dict(l=40, r=40, b=85, t=100),

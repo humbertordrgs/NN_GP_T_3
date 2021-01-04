@@ -15,8 +15,14 @@ There are two main components of this library the `GeneticProgram` and the `Tree
     ```python
         from Tree import Tree
 
+        left = Tree("1",is_leaf=True)
+        right = Tree("2",is_leaf=True)
+        my_first_tree = Tree("0",is_leaf=False,size=3,left=left,right=right)
+        my_first_tree.print()
     ```
+    In this example we created our first `Tree` instance and there few important things to mention:
 
-
-
-
+    *   Every instance has a `is_leaf` attribute which is important for the right behavior of the methods in the class.
+    
+    *   Every `Tree` has a size attribute which needs to be consistent and should be **left.size + right.size + 1**. This is achieved modifying the instace using the functions provided in this class and not in a direct way.
+    
