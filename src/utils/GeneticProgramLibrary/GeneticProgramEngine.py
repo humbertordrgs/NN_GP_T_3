@@ -64,7 +64,7 @@ class GeneticProgram():
   def generate_initial_population(self):
     res = []
     for i in range(self.population_size):
-      res.append(self.generate_individual(0,self.max_tree_deepness,self.terminals,self.non_terminals,self.variables,self.variables_prob))
+      res.append(self.generate_individual(self.max_tree_deepness,self.terminals,self.non_terminals,self.variables,self.variables_prob))
     return res
   
   '''
@@ -196,7 +196,7 @@ class GeneticProgram():
     sub_tree_level, sub_tree_to_be_replaced = individual.get_sub_tree(0,0,idx_sub_tree_to_be_replaced)
 
     # Generate a tree that will be the mutated result
-    replacement_tree = self.generate_individual(0,max(self.max_tree_deepness-sub_tree_level,0),self.terminals,self.non_terminals,self.variables,self.variables_prob)
+    replacement_tree = self.generate_individual(max(self.max_tree_deepness-sub_tree_level,0),self.terminals,self.non_terminals,self.variables,self.variables_prob)
 
     # Replacing the old subtree with the mutated onew
     if idx_sub_tree_to_be_replaced > 0:
