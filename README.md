@@ -90,6 +90,19 @@ There are two main components of this library the `GeneticProgram` and the `Tree
     These indexes are used to retrieve and update specific subtrees
 
     ## Updating Subtree:
+    This functions replace the desired subtree.
+
+    ```python
+        left = Tree(1,is_leaf=True)
+        right = Tree(2,is_leaf=True)
+        updatable_tree = Tree("+",is_leaf=False,size=3,left=left,right=right)
+
+        n_left = Tree(3,is_leaf=True)
+        n_right = Tree(4,is_leaf=True)
+        replacement_tree = Tree("*",is_leaf=False,size=3,left=n_left,right=n_right)
+
+        updatable_tree.update_sub_tree(2,replacement_tree)
+        updatable_tree.print()
+    ```
     
-
-
+    ![](https://raw.githubusercontent.com/humbertordrgs/NN_GP_T_3/develop/assets/updated.png)
