@@ -90,7 +90,7 @@ def plot_tree(G, nr_vertices, v_label):
     font_size=12,
     showlegend=False,
     width=1024,
-    height=768,
+    height=400,
     xaxis=axis,
     yaxis=axis,
     margin=dict(l=40, r=40, b=85, t=100),
