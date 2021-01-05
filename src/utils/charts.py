@@ -10,7 +10,7 @@ def plot_figure(fig, data, color, title):
     
   y_axis = [float(x) for x in data]
   fig.add_scatter(
-    y=[round(y,3) for y in y_axis],
+    y=y_axis,
     x=[x+1 for x in range(len(y_axis))],
     mode="lines+markers", 
     textposition="bottom center",
@@ -22,7 +22,7 @@ def plot_figure(fig, data, color, title):
     width=1024,
     height=400,
     xaxis_title="Generations",
-    yaxis={"title": "Fitness value", "tickformat": ".5f"},
+    yaxis={"title": "Fitness value", "tickformat": ".2f"},
     font=dict(
       family="Courier New, monospace",
       size=14,

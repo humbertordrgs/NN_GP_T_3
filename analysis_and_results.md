@@ -10,13 +10,11 @@ As an optional objective, make sure that there is no duplicate numbers. Each num
 ## Solution
 In general terms our solution for this problem can be expressed as the set of different parameters that configure the `GeneticProgram` instance. Specifically we used populations of `1000` individuals.
 
-Regarding the terminals and non_terminals, we used the natural approach of using the given numbers and defined custom functions that represent the most basic arithmethic operations (`+`,`-`,`*`,`/`) respectively. Our goal number is established and used inside the created fitness method.
+Regarding the terminals and non_terminals, we used the natural approach of using the given numbers and defined custom functions that represent the most basic arithmethic operations (`+`,`-`,`*`,`/`) respectively. Our goal number is established and used inside the created fitness method. For this exercise we used `459` as target and [25,7,8,100,4,2] as the input values.
 
 Our library was built based on a minimization approach this means that a lower fitness value is better. Due to this, the respective fitness method built for this problem can be interpreted as the absolute value of the difference between our goal number and the one obtained evaluating the current tree.
 
 Our end criteria is based off our fitness value, if the fitness value of an individual is `0` then our goal has been reached and the end criteria met.
-
-We did several tests changing the selection and reproduction methods and we chose `tournament` and normal `crossover` respectively.
 
 In this variation of the original problem we are allowed to use the same terminal number  multiple times, because of this the max deepness of the individuals that is used is (`4`). Normally changing this value can help the engine to find better solutions faster.
 
