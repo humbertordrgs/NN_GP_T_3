@@ -19,8 +19,10 @@ def plot_figure(fig, data, color, title):
   )
   fig.update_layout(
     title="Fitness chart",
+    width=1024,
+    height=400,
     xaxis_title="Generations",
-    yaxis={"title": "Accuracy in Test", "tickformat": ".5f"},
+    yaxis={"title": "Fitness value", "tickformat": ".2f"},
     font=dict(
       family="Courier New, monospace",
       size=14,
